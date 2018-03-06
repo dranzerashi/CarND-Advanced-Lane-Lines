@@ -1,9 +1,23 @@
 import cv2
 import numpy as np
 
+def cvt_unint8(function):
+    '''
+    Decorator to convert result to np.uint8
+    :param function:
+    :return: wrapped function
+    '''
 
+    def wrapper(*args, **kwargs):
+        res = function(*args, **kwargs)
+        return np.uint8(res)
+
+    return wrapper
+
+
+@cvt_unint8
 def scale_sobel(img):
-    return np.uint8((img*255)/np.max(img))
+    return (img*255)/np.max(img)
 
 
 def binary_threshold(img, thresh=(0,255)):
@@ -36,7 +50,7 @@ def mag_thresh(img, sobel_kernel=3, mag_thresh=(0, 255)):
     mag_binary = binary_threshold(scaled_sobel, mag_thresh)
     return mag_binary
 
-
+@cvt_unint8
 def dir_threshold(img, sobel_kernel=3, thresh=(0, np.pi/2)):
     # Calculate gradient direction
     # Apply threshold
@@ -45,7 +59,7 @@ def dir_threshold(img, sobel_kernel=3, thresh=(0, np.pi/2)):
     sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=sobel_kernel)
     sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=sobel_kernel)
     abs_sobel_x = np.sqrt(np.square(sobelx))
-    abs_sobel_y= np.sqrt(np.square(sobely))
+    abs_sobel_y = np.sqrt(np.square(sobely))
     grad_dir = np.arctan2(abs_sobel_y, abs_sobel_x)
     dir_binary = binary_threshold(grad_dir, thresh)
     return dir_binary
