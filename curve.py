@@ -28,6 +28,9 @@ class Curve:
         # meters per pixel in x dimension
         self.xm_per_pix = 3.7/700
 
+    def get_fit(self, ploty):
+        return self.current_fit[0]*ploty**2 + self.current_fit[1]*ploty + self.current_fit[2]
+
     def update_best_fit(self):
         #TODO calculate best fit and bestx
         pass
