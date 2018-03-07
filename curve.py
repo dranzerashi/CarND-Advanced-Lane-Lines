@@ -48,6 +48,7 @@ class Curve:
 
     def set_current_fit(self, current_fit, allx, ally):
         if self.detected:
+
             self.recent_xfitted.append(self.current_fit)
         self.update_best_fit()  # TODO Avg out the xfits
 
