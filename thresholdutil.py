@@ -25,6 +25,13 @@ def binary_threshold(img, thresh=(0,255)):
     binary_output[(img > thresh[0]) & (img <= thresh[1])] = 1
     return binary_output
 
+def color_threshold(img, low=(0,0,0), high=(255,255,255)):
+    c1_bin = binary_threshold(img[:, :, 0], thresh=(low[0], high[0]))
+    c2_bin = binary_threshold(img[:, :, 1], thresh=(low[1], high[1]))
+    c3_bin = binary_threshold(img[:, :, 2], thresh=(low[1], high[1]))
+    binary_output = np.zeros_like(img[:,:,0])
+    binary_output[(c1_bin==1) & (c2_bin==1) & (c3_bin==1)] = 1
+    return binary_output
 
 def abs_sobel_thresh(img, orient='x', sobel_kernel=3, thresh=(0, 255)):
     # Calculate directional gradient
