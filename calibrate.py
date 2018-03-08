@@ -3,6 +3,11 @@ import numpy as np
 
 class Calibrate:
     def __init__(self, images, nx, ny):
+        '''
+        :param images: list of file paths to images
+        :param nx: number of inside corners along x
+        :param ny: number of inside corners along y
+        '''
         # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
         objp = np.zeros((ny * nx, 3), np.float32)
         objp[:, :2] = np.mgrid[0:nx, 0:ny].T.reshape(-1, 2)
